@@ -84,16 +84,18 @@ const Home: React.FC<HomeProps> = ({
 
   // Ambil jumlah pinjaman aktif realtime (tidak hanya rely pada data login awal)
   useEffect(()=>{
+    const token = localStorage.getItem('token');
+    if (!token) return; // jangan panggil API jika belum login
     let cancelled=false;
     (async()=>{
       try {
-        const resp:any = await fetch(`${API_BASE_URL}/profile/active-loans-count`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }}).then(r=>r.json());
+        const resp:any = await fetch(`${API_BASE_URL}/profile/active-loans-count`, { headers: { Authorization: `Bearer ${token}` }}).then(r=>r.json());
         if(!cancelled && resp?.success){ setActiveLoansCount(resp.activeLoans); }
       } catch(e){ /* ignore */ }
     })();
     const interval = setInterval(async()=>{
       try {
-        const resp:any = await fetch(`${API_BASE_URL}/profile/active-loans-count`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }}).then(r=>r.json());
+        const resp:any = await fetch(`${API_BASE_URL}/profile/active-loans-count`, { headers: { Authorization: `Bearer ${token}` }}).then(r=>r.json());
         if(resp?.success) setActiveLoansCount(resp.activeLoans);
       } catch {}
     }, 20000); // refresh setiap 20s
@@ -102,6 +104,8 @@ const Home: React.FC<HomeProps> = ({
 
   // Polling ringan untuk notifikasi persetujuan pinjaman dan keputusan pengembalian (3s)
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return; // jangan polling jika belum login
     let cancelled = false;
     const tick = async () => {
       try {

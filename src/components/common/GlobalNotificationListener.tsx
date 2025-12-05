@@ -88,43 +88,45 @@ const GlobalNotificationListener: React.FC = () => {
           for (const l of loans) {
             next[l.id] = { id: l.id, status: l.status, finePaymentStatus: (l as any).finePaymentStatus, bookTitle: l.bookTitle };
             const p = prev[l.id];
-            if (p) {
-              // Return approved fallback: status transition to Dikembalikan (include fine)
-              if (p.status !== 'Dikembalikan' && l.status === 'Dikembalikan') {
-                const key = `return_done_${l.id}`;
-                if (!sessionStorage.getItem(key)) {
-                  const amount = (l as any).fineAmount ?? 0;
-                  const fmt = (n:number)=> new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(Number(n||0));
-                  const msg = amount > 0
-                    ? `Pengembalian buku "${l.bookTitle}" disetujui. Denda: ${fmt(amount)}.`
-                    : `Pengembalian buku "${l.bookTitle}" disetujui.`;
-                  setToast({ message: msg, type: 'success' });
-                  sessionStorage.setItem(key, '1');
-                }
-              }
-              // Return rejected fallback: status drops from 'Siap Dikembalikan' back to running (and/or returnDecision is 'rejected')
-              if (p.status === 'Siap Dikembalikan' && (l.status === 'Sedang Dipinjam' || l.status === 'Terlambat' || (l as any).returnDecision === 'rejected')) {
-                const key = `return_rejected_${l.id}`;
-                if (!sessionStorage.getItem(key)) {
-                  setToast({ message: `Bukti pengembalian untuk "${l.bookTitle}" ditolak. Unggah ulang bukti yang lebih jelas.`, type: 'error' });
-                  sessionStorage.setItem(key, '1');
-                }
-              }
-              // Approve: pending_verification -> paid
-              if (p.finePaymentStatus === 'pending_verification' && l.finePaymentStatus === 'paid') {
-                const amount = (l as any).penaltyAmount ?? (l as any).fineAmount ?? 0;
-                setToast({ message: `Pembayaran denda untuk "${l.bookTitle}" disetujui. Dibayar: ${formatCurrency(amount)}.`, type: 'success' });
-              }
-              // Reject: pending_verification -> awaiting_proof
-              if (p.finePaymentStatus === 'pending_verification' && l.finePaymentStatus === 'awaiting_proof') {
-                setToast({ message: `Bukti pembayaran denda untuk "${l.bookTitle}" ditolak. Unggah bukti yang lebih jelas.`, type: 'error' });
-              }
-              // Fine imposed: from no fine/other -> awaiting_proof (show once)
-              if ((p.finePaymentStatus === undefined || p.finePaymentStatus === 'none') && l.finePaymentStatus === 'awaiting_proof') {
-                const amount = (l as any).fineAmount ?? (l as any).penaltyAmount ?? 0;
-                const key = `fine_imposed_${l.id}`;
-                if (!sessionStorage.getItem(key)) {
-                  setToast({ message: `Anda menerima denda sebesar ${formatCurrency(amount)} untuk "${l.bookTitle}".`, type: 'info' });
+            useEffect(() => {
+              const token = localStorage.getItem('token');
+              if (!token) return; // jangan polling jika belum login
+              let cancelled = false;
+              const tick = async () => {
+                try {
+                  const data = await loanApi.notifications();
+                  if (!cancelled && data?.success && data.notifications?.length) {
+                    const newIds = data.notifications.map((n: any) => n.id);
+                    onApprove?.(data.notifications);
+                    try { await loanApi.ackNotifications(newIds); } catch {}
+                  }
+                } catch {}
+                try {
+                  const ret = await loanApi.returnNotifications();
+                  if (!cancelled && ret?.success && ret.notifications?.length) {
+                    onReturnDecision?.(ret.notifications);
+                    const ackIds = ret.notifications.map((n: any) => n.id);
+                    try { await loanApi.ackReturnNotifications(ackIds); } catch {}
+                  }
+                } catch {}
+                try {
+                  const rej = await loanApi.rejectionNotifications();
+                  if (!cancelled && rej?.success && rej.notifications?.length) {
+                    onReject?.(rej.notifications);
+                    const ackIds = rej.notifications.map((n: any) => n.id);
+                    try { await loanApi.ackRejectionNotifications(ackIds); } catch {}
+                  }
+                } catch {}
+                try {
+                  const loans = await loanApi.userLoans();
+                  if (!cancelled && loans?.success) {
+                    onLoansUpdate?.(loans.loans || []);
+                  }
+                } catch {}
+              };
+              const interval = setInterval(tick, 5000);
+              return () => { cancelled = true; clearInterval(interval); };
+            }, [onApprove, onReject, onReturnDecision, onLoansUpdate]);
                   sessionStorage.setItem(key, '1');
                 }
               }

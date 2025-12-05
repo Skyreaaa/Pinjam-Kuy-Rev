@@ -653,6 +653,8 @@
 
         // Ambil notifikasi approval pinjaman hanya sekali setelah login (tampilkan di semua halaman)
         useEffect(() => {
+            const token = localStorage.getItem('token');
+            if (!token) return;
             // Cegah tampil ulang jika sudah pernah di session ini
             if (sessionStorage.getItem('approvalNotifShown') === '1') return;
             (async () => {
@@ -686,6 +688,8 @@
 
         // Polling setiap 3s mendeteksi approval & notifikasi pengembalian secara realtime
         useEffect(() => {
+            const token = localStorage.getItem('token');
+            if (!token) return;
             const interval = setInterval(async () => {
                 try {
                     const res = await loanApi.userLoans();
