@@ -17,13 +17,25 @@ function resolveDefaultBase(): string {
 	return 'http://localhost:5000/api';
 }
 
-export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || resolveDefaultBase();
+// Normalize env base URL: ensure protocol present and proper format
+function normalizeBase(raw?: string): string {
+	const val = (raw || '').trim();
+	if (!val) return resolveDefaultBase();
+	// Add https:// if missing protocol
+	const withProto = /^(?:https?:)\/\//i.test(val) ? val : `https://${val}`;
+	// Ensure no double slashes and keep as-is if already ends with /api
+	return withProto;
+}
+
+// Access process.env via globalThis to satisfy TS in browser builds
+const envBase = (globalThis as any).process?.env?.REACT_APP_API_BASE_URL as string | undefined;
+export const API_BASE_URL = normalizeBase(envBase) || resolveDefaultBase();
 
 // Helper to build full URL
 export const apiUrl = (path: string) => `${API_BASE_URL}${path.startsWith('/') ? path : '/' + path}`;
 
 // Debug (development only)
-if (process.env.NODE_ENV !== 'production') {
+if (((globalThis as any).process?.env?.NODE_ENV || '') !== 'production') {
 	// eslint-disable-next-line no-console
 	console.log('[API] Base URL resolved to:', API_BASE_URL);
 }
