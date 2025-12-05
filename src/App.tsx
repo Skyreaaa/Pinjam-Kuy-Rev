@@ -29,11 +29,11 @@ function App() {
 
   // Untuk akses file statis (uploads) derive dari API_BASE_URL terpusat
   const API_URL = API_BASE_URL.replace(/\/api\/?$/,'');
-  const resolveMediaUrl = useCallback((raw?: string | null) => {
+  const resolveMediaUrl = (raw?: string | null) => {
     if (!raw) return null;
     if (/^(https?:|data:|blob:)/i.test(raw)) return raw; // sudah absolut (Cloudinary/dll)
     return `${API_URL}${raw}`; // relatif dari backend
-  }, [API_URL]);
+  };
   const getUserDataFromStorage = () => {
     const userDataStr = localStorage.getItem('userData');
     return userDataStr ? JSON.parse(userDataStr) : null;

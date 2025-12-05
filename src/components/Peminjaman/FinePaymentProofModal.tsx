@@ -16,12 +16,7 @@ interface FinePaymentProofModalProps {
 const RAW_MAX_SIZE = 5 * 1024 * 1024; // raw file limit before processing (frontend early reject)
 const TARGET_MAX_BYTES = 1024 * 1024; // strive for <=1MB after compression
 
-const humanSize = (bytes: number) => {
-  if (bytes < 1024) return bytes + ' B';
-  const kb = bytes / 1024;
-  if (kb < 1024) return kb.toFixed(1) + ' KB';
-  return (kb / 1024).toFixed(2) + ' MB';
-};
+// removed unused humanSize to satisfy ESLint
 
 const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, onClose, onSuccess }) => {
   const [file, setFile] = useState<File | null>(null);
@@ -342,7 +337,7 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
     if (!preview && !file) {
       startCamera();
     }
-  }, [preview, file]);
+  }, [preview, file, startCamera]);
 
   // Connect stream to video element
   React.useEffect(() => {
@@ -459,7 +454,7 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
       
       {/* Upload Progress Modal */}
       {showUploadModal && (
-        <div className="modal-backdrop upload-progress-backdrop" style={{zIndex: 1100}}>
+        <div className="modal-backdrop upload-progress-backdrop">
           <div className="modal upload-progress-modal">
             <h3>Mengunggah Bukti Pembayaran</h3>
             <div className="upload-progress-container">

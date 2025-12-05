@@ -4,6 +4,9 @@
 [build.environment]
   CI = "false"
 
+# Explicitly set build command for Netlify Linux environment
+command = "CI=false npm run build"
+
 # Redirect untuk Single Page App (React Router)
 [[redirects]]
   from = "/*"
