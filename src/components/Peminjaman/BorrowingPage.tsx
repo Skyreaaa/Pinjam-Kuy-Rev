@@ -101,7 +101,7 @@
         return (
             <div className="borrowing-header-v5">
                 <div className="header-top-v5">
-                    <button onClick={() => currentPath === '/loans' ? navigate('/') : onBack()} className="back-button-v5" title="Kembali">
+                    <button onClick={() => navigate(-1)} className="back-button-v5" title="Kembali">
                         <IoIosArrowBack />
                     </button>
                     <div className="nav-links-v5">
@@ -451,14 +451,14 @@
 
         if (isLoading) return (
             <div className="book-detail-container-v5">
-                <HeaderV5 onBack={() => navigate('/')} currentPath={`/book/${bookId}`} searchTerm="" setSearchTerm={() => {}} title="Detail Buku" />
+                <HeaderV5 onBack={() => navigate(-1)} currentPath={`/book/${bookId}`} searchTerm="" setSearchTerm={() => {}} title="Detail Buku" />
                 <p className="loading-bar">Memuat detail buku...</p>
             </div>
         );
         
         if (error || !book) return (
             <div className="book-detail-container-v5">
-                <HeaderV5 onBack={() => navigate('/')} currentPath={`/book/${bookId}`} searchTerm="" setSearchTerm={() => {}} title="Detail Buku" />
+                <HeaderV5 onBack={() => navigate(-1)} currentPath={`/book/${bookId}`} searchTerm="" setSearchTerm={() => {}} title="Detail Buku" />
                 <div className="main-content-area-v5">
                     <p className="status-message error"><FaExclamationCircle /> {error || 'Buku tidak ditemukan.'}</p>
                 </div>
@@ -472,7 +472,7 @@
         // UI Detail Buku
         return (
             <div className="book-detail-container-v5">
-                <HeaderV5 onBack={() => navigate('/')} currentPath={`/book/${bookId}`} searchTerm="" setSearchTerm={() => {}} title="Detail Buku" />
+                <HeaderV5 onBack={() => navigate(-1)} currentPath={`/book/${bookId}`} searchTerm="" setSearchTerm={() => {}} title="Detail Buku" />
                 
                 <div className="main-content-area-v5 detail-view">
                     {message && <p className={`status-message ${message.includes('Gagal') ? 'error' : 'success'}`}>{message}</p>}
@@ -583,6 +583,7 @@
     const [returnCompletedCrop, setReturnCompletedCrop] = useState<Crop | null>(null);
     // History detail modal
     const [historyDetailLoan, setHistoryDetailLoan] = useState<Loan | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
     // Fine payment proof rejection prompt
     const [rejectedFineLoanIds, setRejectedFineLoanIds] = useState<number[]>([]);
             // Dengarkan event loan baru: sekarang TIDAK otomatis buka QR (karena QR hanya setelah disetujui)
@@ -1653,8 +1654,8 @@
                 <HeaderV5 
                     onBack={() => {}} 
                     currentPath="/loans" 
-                    searchTerm="" 
-                    setSearchTerm={() => {}} 
+                    searchTerm={searchTerm} 
+                    setSearchTerm={setSearchTerm} 
                     title="Pinjaman Saya" 
                 />
                 <div className="pending-loans-container-v5">

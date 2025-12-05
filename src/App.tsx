@@ -130,6 +130,7 @@ function App() {
   const initialize = useCallback(() => {
     const pathToPage = (path: string): string => {
       if (path.startsWith('/loans')) return 'borrowing-page';
+      if (path.startsWith('/book/')) return 'borrowing-page';
       if (path.startsWith('/profile')) return 'profile';
       if (path.startsWith('/notifications')) return 'notification-history';
       if (path.startsWith('/admin')) return 'admin-dashboard';
@@ -197,6 +198,7 @@ function App() {
       const path = window.location.pathname;
       const pathToPage = (p: string): string => {
         if (p.startsWith('/loans')) return 'borrowing-page';
+        if (p.startsWith('/book/')) return 'borrowing-page';
         if (p.startsWith('/profile')) return 'profile';
         if (p.startsWith('/notifications')) return 'notification-history';
         if (p.startsWith('/admin')) return 'admin-dashboard';
@@ -225,9 +227,9 @@ function App() {
         if (res.status === 401) {
           handleLogout();
         }
-      } catch {
-        // Network or other error: treat as unauthenticated
-        handleLogout();
+      } catch (e) {
+        // Network or other error: do NOT force logout to avoid false positives
+        // Optionally, could show a transient offline indicator here
       }
     };
     check();
