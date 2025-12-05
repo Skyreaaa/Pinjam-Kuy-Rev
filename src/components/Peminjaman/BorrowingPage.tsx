@@ -1385,10 +1385,13 @@
                                     <span>{uploadProgress}%</span>
                                 </div>
                                 <div className="upload-progress-bar">
-                                    <div className="upload-progress-fill" style={{
-                                        width: `${uploadProgress}%`,
-                                        backgroundColor: uploadProgress === 100 ? '#4caf50' : '#2196f3'
-                                    }}/>
+                                    {(() => {
+                                        const pct = Math.min(100, Math.max(0, Math.round(uploadProgress)));
+                                        const state = uploadProgress === 100 ? 'success' : 'ongoing';
+                                        return (
+                                            <div className={`upload-progress-fill w-${pct} ${state}`}></div>
+                                        );
+                                    })()}
                                 </div>
                             </div>
                         )}
@@ -1397,7 +1400,7 @@
                             <button onClick={cancelReturnProofModal} disabled={uploadingLoanId!==null}>Batal</button>
                             <button onClick={submitReturnProof} disabled={!returnProofFile || uploadingLoanId!==null}>
                                 {uploadingLoanId === returnProofLoan.id ? (
-                                    <span style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                                    <span className="upload-progress-status">
                                         <span className="spinner-small"></span>
                                         Mengunggah... {uploadProgress}%
                                     </span>
@@ -1482,7 +1485,7 @@
                             {selectedLoan.kodePinjam ? (
                                 <div className="qr-wrapper">
                                     {/* Hidden QR for generation */}
-                                    <div ref={qrRef} style={{ display: 'none' }}>
+                                    <div ref={qrRef} className="hidden-element">
                                         <QRCode 
                                             value={selectedLoan.kodePinjam}
                                             size={220}
@@ -1492,15 +1495,7 @@
                                         />
                                     </div>
                                     {/* Canvas with logo */}
-                                    <canvas 
-                                        ref={canvasRef} 
-                                        style={{ 
-                                            display: 'block',
-                                            margin: '0 auto',
-                                            border: '1px solid #e0e0e0',
-                                            borderRadius: '8px'
-                                        }}
-                                    />
+                                    <canvas ref={canvasRef} className="qr-canvas" />
                                     <div className='qr-actions'>
                                         <button onClick={() => { navigator.clipboard.writeText(selectedLoan.kodePinjam); }} className='btn-copy-qr'>Salin Kode</button>
                                         <button onClick={async () => {
@@ -1818,7 +1813,7 @@
                                         </button>
                                     </div>
                                     <video ref={returnVideoRef} autoPlay playsInline className="fine-camera-video" />
-                                    <canvas ref={returnCanvasRef} style={{display: 'none'}} />
+                                    <canvas ref={returnCanvasRef} className="hidden-canvas" />
                                     <div className="fine-camera-controls">
                                         <button type="button" className="fine-btn-capture" onClick={takeReturnPicture}>
                                             📸 Take Picture
@@ -1834,7 +1829,7 @@
                                 </div>
                             )}
                             
-                            <div className="modal-actions" style={{marginTop: '16px'}}>
+                            <div className="modal-actions mt-16">
                                 <button onClick={() => { setShowReturnProofChoice(false); stopReturnCamera(); }}>Tutup</button>
                             </div>
                         </div>
@@ -1846,9 +1841,10 @@
                     ref={cameraReturnInputRef} 
                     type="file" 
                     accept="image/*" 
-                    capture="environment" 
                     onChange={(e) => { if(returnProofChoiceLoan) onFileChange(returnProofChoiceLoan, e); }} 
                     className="visually-hidden-file" 
+                    aria-label="Ambil foto dari kamera"
+                    title="Ambil foto"
                 />
                 <input 
                     ref={fileReturnInputRef} 
@@ -1856,6 +1852,8 @@
                     accept="image/*" 
                     onChange={(e) => { if(returnProofChoiceLoan) onFileChange(returnProofChoiceLoan, e); }} 
                     className="visually-hidden-file" 
+                    aria-label="Pilih file gambar"
+                    title="Pilih file"
                 />
                     </div>
                 </div>

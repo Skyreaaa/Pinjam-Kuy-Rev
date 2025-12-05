@@ -1382,6 +1382,17 @@
     transition: width 0.3s ease, background-color 0.3s ease;
     border-radius: 4px;
 }
+.upload-progress-fill.ongoing { background-color: #2196f3; }
+.upload-progress-fill.success { background-color: #4caf50; }
+
+/* Utility helpers extracted from inline styles */
+.upload-progress-status { display:flex; align-items:center; gap:8px; }
+.hidden-element { display:none; }
+.qr-canvas { display:block; margin:0 auto; border:1px solid #e0e0e0; border-radius:8px; }
+.mt-16 { margin-top:16px; }
+.notif-empty-icon { font-size:3rem; color:#ccc; margin-bottom:1rem; }
+.proof-empty-text { text-align:center; color:#999; padding:2rem; }
+.cursor-pointer { cursor: pointer; }
 
 /* ==============================
    Notification History Styles

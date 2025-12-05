@@ -1033,7 +1033,7 @@ const AdminDashboard: React.FC = () => {
                         </div>
                         <div>
                             {/* Toggle between scan and manual input */}
-                            <div className="form-group" style={{ marginBottom: '1rem' }}>
+                            <div className="form-group">
                                 <button 
                                     className={`btn ${!useManualInput ? 'btn-primary' : 'btn-outline'}`}
                                     onClick={() => { 
@@ -1046,7 +1046,9 @@ const AdminDashboard: React.FC = () => {
                                         setIsScanning(true);
                                         setVideoKey(prev => prev + 1);
                                     }}
-                                    style={{ marginRight: '0.5rem' }}
+                                    title="Mode Scan QR"
+                                    aria-label="Mode Scan QR"
+                                    
                                 >
                                     <FaBarcode /> Scan QR
                                 </button>
@@ -1137,8 +1139,7 @@ const AdminDashboard: React.FC = () => {
                                             <video 
                                                 key={videoKey}
                                                 ref={(el)=>{ videoRef.current = el; (zxingRef as any).current = el; }} 
-                                                className="scan-video" 
-                                                style={{ transform: isMirrored ? 'scaleX(-1)' : 'none' }} 
+                                                className={`scan-video${isMirrored ? ' mirrored' : ''}`} 
                                             />
                                         ) : (
                                             <div className="scan-paused">Pemindaian dijeda</div>
@@ -1212,18 +1213,18 @@ const AdminDashboard: React.FC = () => {
             {/* Success Modal */}
             {showScanSuccess && createPortal(
                 <div className="modal-overlay" role="dialog" aria-modal="true">
-                    <div className="modal-content" role="document" style={{ maxWidth: '400px' }}>
+                    <div className="modal-content modal-content-narrow" role="document">
                         <div className="modal-header">
-                            <h2 style={{ color: '#28a745', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <h2 className="success-title">
                                 <FaCheckCircle /> Berhasil!
                             </h2>
                         </div>
                         <div className="modal-body">
-                            <p style={{ textAlign: 'center', fontSize: '1.1rem', marginBottom: '1rem' }}>
+                            <p className="text-center font-lg mb-16">
                                 {scanSuccessMessage}
                             </p>
                             {scannedLoanId && (
-                                <p style={{ textAlign: 'center', color: '#666' }}>
+                                <p className="text-center text-muted">
                                     Loan ID: <strong>{scannedLoanId}</strong>
                                 </p>
                             )}
@@ -1267,7 +1268,7 @@ const AdminDashboard: React.FC = () => {
                                                                 </p>
                                                             </div>
                                                             <div className="proof-card-image-fullsize">
-                                                                <img src={proofContext.imageUrl} alt="Bukti" onClick={()=> window.open(proofContext.imageUrl,'_blank')} style={{cursor: 'pointer'}} title="Klik untuk buka di tab baru" />
+                                                                <img src={proofContext.imageUrl} alt="Bukti" onClick={()=> window.open(proofContext.imageUrl,'_blank')} className="cursor-pointer" title="Klik untuk buka di tab baru" />
                                                             </div>
                                                             <div className="proof-card-meta">
                                                                 <p><strong>User:</strong> {proofContext.user} ({proofContext.npm})</p>

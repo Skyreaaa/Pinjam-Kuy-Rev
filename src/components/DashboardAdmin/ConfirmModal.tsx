@@ -64,7 +64,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     return (
         <div className="modal-overlay-v5">
             <div className={`modal-content-v5 confirm-modal ${type}`}>
-                <button className="modal-close-v5" onClick={onClose} disabled={isLoading}>
+                <button className="modal-close-v5" onClick={onClose} disabled={isLoading} aria-label="Tutup" title="Tutup">
                     <FaTimes />
                 </button>
                 <div className="modal-header-v5">

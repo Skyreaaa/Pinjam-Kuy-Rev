@@ -107,9 +107,9 @@ const ReturnProcessModal: React.FC<ReturnProcessModalProps> = ({ isOpen, onClose
                             <label><FaClock /> Denda Keterlambatan (Otomatis):</label>
                             <p className="auto-fine-display">
                                 {loanData.calculatedPenalty && loanData.calculatedPenalty > 0 ? (
-                                    <span style={{ color: '#dc3545', fontWeight: 'bold' }}>{loanData.calculatedPenaltyRupiah}</span>
+                                    <span className="fine-red-bold">{loanData.calculatedPenaltyRupiah}</span>
                                 ) : (
-                                    <span style={{ color: '#28a745', fontWeight: 'bold' }}>{formatRupiah(0)} (Tepat Waktu)</span>
+                                    <span className="fine-green-bold">{formatRupiah(0)} (Tepat Waktu)</span>
                                 )}
                             </p>
                         </div>

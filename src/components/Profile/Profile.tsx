@@ -219,7 +219,7 @@ const Profile: React.FC<ProfileProps> = ({
   return (
     <div className="profile-container">
       <header className="profile-header">
-        <button onClick={onBack} className="back-btn">
+        <button onClick={onBack} className="back-btn" aria-label="Kembali" title="Kembali">
           <FaArrowLeft />
         </button>
         <h2>Profil Pengguna</h2>
@@ -256,9 +256,11 @@ const Profile: React.FC<ProfileProps> = ({
             <input
               type="file"
               ref={fileInputRef}
-              style={{ display: 'none' }}
+              className="visually-hidden-file"
               onChange={handleFileChange}
               accept="image/*"
+              aria-label="Pilih foto profil"
+              title="Pilih foto"
             />
           </div>
           
@@ -279,20 +281,20 @@ const Profile: React.FC<ProfileProps> = ({
 
           <div className="profile-fields">
             <div className="field">
-              <label>Nama Lengkap</label>
-              <input type="text" value={editedUsername} onChange={(e) => setEditedUsername(e.target.value)} disabled={!isEditing} />
+              <label htmlFor="profile-name">Nama Lengkap</label>
+              <input id="profile-name" type="text" value={editedUsername} onChange={(e) => setEditedUsername(e.target.value)} disabled={!isEditing} placeholder="Nama lengkap" title="Nama lengkap" />
             </div>
             <div className="field">
-              <label>Fakultas</label>
-              <input type="text" value={editedFakultas} onChange={(e) => setEditedFakultas(e.target.value)} disabled={!isEditing} />
+              <label htmlFor="profile-fakultas">Fakultas</label>
+              <input id="profile-fakultas" type="text" value={editedFakultas} onChange={(e) => setEditedFakultas(e.target.value)} disabled={!isEditing} placeholder="Fakultas" title="Fakultas" />
             </div>
             <div className="field">
-              <label>Prodi</label>
-              <input type="text" value={editedProdi} onChange={(e) => setEditedProdi(e.target.value)} disabled={!isEditing} />
+              <label htmlFor="profile-prodi">Prodi</label>
+              <input id="profile-prodi" type="text" value={editedProdi} onChange={(e) => setEditedProdi(e.target.value)} disabled={!isEditing} placeholder="Program studi" title="Program studi" />
             </div>
             <div className="field">
-              <label>Angkatan</label>
-              <input type="text" value={editedAngkatan} onChange={(e) => setEditedAngkatan(e.target.value)} disabled={!isEditing} />
+              <label htmlFor="profile-angkatan">Angkatan</label>
+              <input id="profile-angkatan" type="text" value={editedAngkatan} onChange={(e) => setEditedAngkatan(e.target.value)} disabled={!isEditing} placeholder="Angkatan" title="Angkatan" />
             </div>
           </div>
           

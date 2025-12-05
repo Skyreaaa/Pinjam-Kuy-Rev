@@ -337,6 +337,8 @@ const NotificationHistory: React.FC<NotificationHistoryProps> = ({ onBack }) => 
                   value={customStartDate}
                   onChange={(e) => setCustomStartDate(e.target.value)}
                   className="filter-date-input"
+                  title="Tanggal mulai"
+                  aria-label="Tanggal mulai"
                 />
                 <span className="filter-date-separator">s/d</span>
                 <input 
@@ -344,6 +346,8 @@ const NotificationHistory: React.FC<NotificationHistoryProps> = ({ onBack }) => 
                   value={customEndDate}
                   onChange={(e) => setCustomEndDate(e.target.value)}
                   className="filter-date-input"
+                  title="Tanggal selesai"
+                  aria-label="Tanggal selesai"
                 />
                 <button 
                   className="filter-apply-btn"
@@ -363,7 +367,7 @@ const NotificationHistory: React.FC<NotificationHistoryProps> = ({ onBack }) => 
         {error && !loading && <p className="status-message error">{error}</p>}
         {!loading && !error && filteredItems.length === 0 && (
           <div className="notif-empty-state">
-            <FaBell style={{fontSize: '3rem', color: '#ccc', marginBottom: '1rem'}} />
+            <FaBell className="notif-empty-icon" />
             <p className="status-message">
               {allItems.length === 0 ? 'Belum ada notifikasi.' : 'Tidak ada notifikasi untuk periode yang dipilih.'}
             </p>
@@ -422,7 +426,7 @@ const NotificationHistory: React.FC<NotificationHistoryProps> = ({ onBack }) => 
         return (
           <div className="proof-modal-overlay" onClick={() => setSelectedProof(null)}>
             <div className="proof-modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="proof-modal-close" onClick={() => setSelectedProof(null)}>
+              <button className="proof-modal-close" onClick={() => setSelectedProof(null)} aria-label="Tutup" title="Tutup">
                 <FaTimes />
               </button>
               <h2 className="proof-modal-title">Bukti Pengembalian</h2>
@@ -434,7 +438,7 @@ const NotificationHistory: React.FC<NotificationHistoryProps> = ({ onBack }) => 
                     src={imageUrl}
                     alt="Bukti Pengembalian"
                     onClick={() => window.open(imageUrl, '_blank')}
-                    style={{ cursor: 'pointer' }}
+                    className="cursor-pointer"
                     title="Klik untuk buka di tab baru"
                     onError={(e) => {
                       console.error('❌ Failed to load image:', imageUrl);
@@ -444,7 +448,7 @@ const NotificationHistory: React.FC<NotificationHistoryProps> = ({ onBack }) => 
                 </div>
               ) : (
                 <div className="proof-modal-image proof-modal-image-fullsize">
-                  <p style={{ textAlign: 'center', color: '#999', padding: '2rem' }}>
+                  <p className="proof-empty-text">
                     Tidak ada bukti pengembalian
                   </p>
                 </div>

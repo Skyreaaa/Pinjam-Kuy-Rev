@@ -27,8 +27,8 @@ function normalizeBase(raw?: string): string {
 	return withProto;
 }
 
-// Access process.env via globalThis to satisfy TS in browser builds
-const envBase = (globalThis as any).process?.env?.REACT_APP_API_BASE_URL as string | undefined;
+// Access env from CRA (inlined at build time)
+const envBase = process.env.REACT_APP_API_BASE_URL as string | undefined;
 export const API_BASE_URL = normalizeBase(envBase) || resolveDefaultBase();
 
 // Helper to build full URL
