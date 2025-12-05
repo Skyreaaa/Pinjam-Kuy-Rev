@@ -34,7 +34,7 @@ const formatRupiah = (amount: number) => {
 };
 
 const Home: React.FC<HomeProps> = ({
-  userData,
+  userData = {} as any,
   profilePhoto,
   onMenuClick,
   onLogout

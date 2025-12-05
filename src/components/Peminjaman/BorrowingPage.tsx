@@ -96,13 +96,28 @@
     }
     const HeaderV5: React.FC<HeaderV5Props> = ({ onBack, currentPath, searchTerm, setSearchTerm, title }) => {
         const navigate = useNavigate();
-        // Tampilkan kotak pencarian di halaman daftar buku
-        const isSearchVisible = currentPath === '/loans';
+        // Tampilkan kotak pencarian di halaman daftar buku (bukan di /loans)
+        const isSearchVisible = currentPath !== '/loans';
 
         return (
             <div className="borrowing-header-v5">
                 <div className="header-top-v5">
-                    <button onClick={() => navigate(-1)} className="back-button-v5" title="Kembali">
+                    <button
+                        onClick={() => {
+                            try {
+                                if (window.history.length > 1) {
+                                    navigate(-1);
+                                } else {
+                                    // Fallback ke halaman daftar buku
+                                    navigate('/');
+                                }
+                            } catch {
+                                navigate('/');
+                            }
+                        }}
+                        className="back-button-v5"
+                        title="Kembali"
+                    >
                         <IoIosArrowBack />
                     </button>
                     <div className="nav-links-v5">
@@ -275,7 +290,9 @@
                     ) : (
                         <div className="book-cards-v5">
                             {filteredAndSortedBooks.map(book => (
-                                <BookCardV5 key={book.id} book={book} onClick={() => navigate(`/book/${book.id}`)} />
+                                <Link key={book.id} to={`/book/${book.id}`} className="book-card-link">
+                                    <BookCardV5 book={book} onClick={() => navigate(`/book/${book.id}`)} />
+                                </Link>
                             ))}
                             {isLoading && books.length > 0 && <p className="loading-bar">Memperbarui data...</p>}
                         </div>
