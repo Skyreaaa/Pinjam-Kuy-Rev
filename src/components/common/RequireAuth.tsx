@@ -16,7 +16,8 @@ export default function RequireAuth({ children }: Props) {
     const controller = new AbortController();
     (async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/health`, {
+        // Gunakan endpoint yang MEMBUTUHKAN auth agar validasi token akurat
+        const res = await fetch(`${API_BASE_URL}/profile/me`, {
           headers: { Authorization: `Bearer ${token}` },
           signal: controller.signal,
         });
