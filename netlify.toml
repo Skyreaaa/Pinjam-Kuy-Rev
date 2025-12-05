@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+# Redirect untuk Single Page App (React Router)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Opsi proxy API (jika ingin mem-forward /api/* via Netlify ke backend)
+# Catatan: Tidak wajib jika front-end sudah pakai REACT_APP_API_BASE_URL absolut.
+# Uncomment dan ganti BACKEND_HOST jika ingin proxy.
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://BACKEND_HOST/api/:splat"
+#   status = 200
+#   force = true

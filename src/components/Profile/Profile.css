@@ -1,0 +1,427 @@
+/* src/components/Profile/Profile.css */
+
+/* General Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f2f5;
+}
+
+.profile-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 2rem auto;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: #007bff;
+}
+
+.profile-title {
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Profile Content Layout (Desktop) */
+.profile-content {
+  display: flex;
+  gap: 30px;
+}
+
+.profile-card {
+  flex-basis: 35%;
+  background-color: #f8f9fa;
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.biodata-card {
+  flex-basis: 65%;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Photo Section */
+.profile-photo-section {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #007bff;
+}
+
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-actions {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile-photo-section:hover .photo-actions {
+  opacity: 1;
+}
+
+.camera-btn, .trash-btn {
+  background: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: #333;
+  font-size: 1rem;
+}
+
+.camera-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.trash-btn:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Info Section */
+.user-name {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.user-npm {
+  font-size: 1em;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Biodata Section */
+.biodata-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #333;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 25px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+
+.icon-btn:hover {
+  color: #0056b3;
+}
+
+.profile-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.field input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Message Styles (Untuk notifikasi inline) */
+.message {
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+
+/* Actions Buttons */
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.save-btn, .cancel-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.save-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.save-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.save-btn:disabled, .cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .profile-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .profile-card, .biodata-card {
+    flex-basis: 100%;
+  }
+
+  .profile-photo-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-card {
+    padding: 20px 15px;
+  }
+
+  .biodata-card {
+    padding: 20px 15px;
+  }
+}
+
+/* --- Gaya CSS untuk Modal (Perbaikan Warna dan Struktur) --- */
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #333;
+    /* Memberi jarak di bawah judul sebelum ikon */
+    margin-bottom: 15px; 
+}
+
+.modal-content p {
+    margin-bottom: 25px;
+    color: #666;
+}
+
+/* FIX UTAMA: Ukuran Ikon Modal */
+.modal-icon { 
+    width: 60px; 
+    height: 60px;
+    margin-bottom: 20px; /* Jarak antara ikon dan pesan */
+}
+
+/* Gaya Tombol Modal */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+/* Tombol Batal/Tutup */
+.modal-actions .btn-cancel {
+    background-color: #f8f9fa;
+    color: #6c757d;
+}
+
+.modal-actions .btn-cancel:hover {
+    background-color: #e2e6ea;
+}
+
+/* Tombol Konfirmasi (btn-confirm) untuk SimpleModal */
+.modal-content.success .btn-confirm {
+    background-color: #28a745; /* Hijau untuk Sukses */
+    color: white;
+}
+.modal-content.error .btn-confirm {
+    background-color: #dc3545; /* Merah untuk Gagal */
+    color: white;
+}
+.modal-content.confirm .btn-confirm {
+    background-color: #007bff; /* Biru untuk Konfirmasi Umum */
+    color: white;
+}
+
+/* FIX: Pastikan tombol konfirmasi di Crop Modal juga berwarna Biru */
+.crop-modal .modal-actions .btn-confirm {
+    background-color: #007bff; /* Biru: Potong & Unggah */
+    color: white;
+}
+
+.crop-modal .modal-actions .btn-confirm:hover {
+    background-color: #0056b3;
+}
+
+.modal-content .btn-confirm:hover {
+    opacity: 0.8;
+}
+
+/* Gaya khusus untuk Crop Modal */
+.crop-modal {
+    max-width: 700px; 
+    width: 90%;
+    height: auto;
+    max-height: 90vh;
+}
+
+.crop-area {
+    width: 100%;
+    max-height: 50vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    overflow: hidden; 
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    border: 1px dashed #ccc;
+}
+
+.crop-preview-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
+    display: block;
+}

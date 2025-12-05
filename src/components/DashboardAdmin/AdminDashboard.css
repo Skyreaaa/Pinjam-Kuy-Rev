@@ -1,0 +1,1269 @@
+/* File: src/components/DashboardAdmin/AdminDashboard.css (FINAL FIX: Kontras & Keterbacaan Tinggi) */
+
+/* --- GLOBAL STYLES --- */
+/* Tokens lokal dihapus karena kini menggunakan variabel dari adminTheme.css */
+/* Pastikan file styles/adminTheme.css sudah diimport di index.js */
+
+.admin-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    min-height: 100dvh;
+    background-color: var(--color-bg); 
+    font-family: var(--font-stack);
+    color: var(--color-text); 
+    padding: 0;
+    margin: 0;
+}
+
+.admin-main-content {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    max-width: var(--layout-max-width);
+    margin: 0 auto;
+    flex: 1;
+    gap: var(--space-5);
+    padding: var(--space-5) var(--space-6) var(--space-8);
+    box-sizing: border-box;
+}
+
+.admin-sidebar {
+    width: var(--sidebar-width);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5) var(--space-4) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    position: -webkit-sticky;
+    position: sticky;
+    top: calc(var(--space-8) + 10px);
+    height: fit-content;
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-sidebar .nav-title {
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    margin: var(--space-4) 0 var(--space-2);
+    color: var(--color-text-faint);
+}
+
+.admin-sidebar .nav-divider {
+    height: 1px;
+    background: var(--color-separator);
+    margin: var(--space-3) 0 var(--space-1);
+    border-radius: 2px;
+}
+
+.admin-sidebar .nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    border: none;
+    background: transparent;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    color: var(--color-text-soft);
+    transition: background var(--transition), color var(--transition);
+    text-align: left;
+}
+.admin-sidebar .nav-item svg { font-size: .9rem; }
+.admin-sidebar .nav-item:hover { background: var(--color-surface-alt); color: var(--color-text); }
+.admin-sidebar .nav-item.active { background: var(--color-primary); color: #fff; }
+.admin-sidebar .nav-item.active svg { color: #fff; }
+.admin-sidebar .nav-item.nav-logout { margin-top: var(--space-5); color: var(--color-danger); }
+.admin-sidebar .nav-item.nav-logout:hover { background: var(--color-danger-bg); color: var(--color-danger); }
+
+@media (max-width: 980px) {
+    .admin-main-content { flex-direction: column; padding: var(--space-4); }
+    .admin-sidebar { position: relative; top: 0; width: 100%; flex-direction: row; flex-wrap: wrap; }
+    .admin-sidebar .nav-item { flex: 1 1 45%; }
+    .admin-sidebar .nav-title, .admin-sidebar .nav-divider { display: none; }
+}
+
+/* --- HEADER & NAVIGATION --- */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-4) var(--space-6);
+    background-color: var(--color-surface);
+    border-bottom: 2px solid var(--color-primary); 
+    box-shadow: var(--shadow-md);
+    position: -webkit-sticky; /* iOS Safari */
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.admin-header h1 {
+    font-size: var(--fs-xl);
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: .5px;
+}
+
+.admin-header-right { display:flex; align-items:center; gap: var(--space-4); }
+.theme-toggle-btn {
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    padding: 6px 12px;
+    font-size: .9rem;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    line-height:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.theme-toggle-btn:hover { background: var(--color-surface-alt); filter: brightness(0.95); }
+.theme-toggle-btn:focus-visible { box-shadow: var(--shadow-focus); outline:none; }
+
+.admin-header button {
+    background: none;
+    border: 1px solid var(--color-danger);
+    color: var(--color-danger);
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.admin-header button:hover {
+    background-color: var(--color-danger);
+    color: white;
+}
+
+/* (Deprecated) .admin-nav lama — akan digantikan sidebar tetap */
+.admin-nav { display:none; }
+
+.admin-nav button {
+    background: #ffffff;
+    color: var(--color-text-dark);
+    border: 1px solid #adb5bd;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.admin-nav button.active {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 6px rgba(0, 86, 179, 0.3);
+}
+
+/* --- CONTENT AREA --- */
+.admin-content-area {
+    padding: 1rem 2rem 2rem;
+    flex-grow: 1;
+}
+
+.admin-content-wrapper {
+    background-color: var(--color-surface);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Admin toolbar (global actions above content) */
+.admin-toolbar { display:flex; gap:8px; margin-bottom:10px; }
+
+/* QR Scan modal styles */
+.scan-video-container {
+    display:flex; justify-content:center; align-items:center;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 8px;
+}
+.scan-video { width:100%; max-width:480px; }
+.scan-paused { width:100%; max-width:480px; height:260px; display:flex; align-items:center; justify-content:center; color:#666; }
+.mt-10 { margin-top: 10px; }
+.modal-footer-left { justify-content: flex-start; }
+
+/* Manual Input Section in Scan Modal */
+.manual-input-section {
+    margin-top: 20px;
+    padding-top: 20px;
+}
+.section-divider {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 15px 0;
+}
+.manual-input-section .text-info-small {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+.manual-input-section .form-group {
+    margin-bottom: 15px;
+}
+.manual-input-section .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 1rem;
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-sizing: border-box;
+}
+.manual-input-section .form-control:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+.manual-input-section .btn-block {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Horizontal scroll on small screens */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* --- STATUS & LOADING --- */
+.status-container {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1rem;
+    border-left: 5px solid;
+}
+
+.status-container.error {
+    background-color: #f8d7da; 
+    color: #721c24; 
+    border-color: #721c24;
+}
+
+.status-container.success {
+    background-color: #d4edda; 
+    color: #155724; 
+    border-color: #155724;
+}
+.status-container .clear-status {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/* --- BUTTONS --- */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    line-height: 1;
+}
+
+/* Buttons menggunakan tokens */
+.btn-primary { background-color: var(--color-primary); color: var(--color-text-invert); }
+.btn-primary:hover { background-color: var(--color-primary-hover); }
+
+.btn-success { background-color: var(--color-success); color: var(--color-text-invert); }
+.btn-success:hover { filter: brightness(.9); }
+
+.btn-danger { background-color: var(--color-danger); color: var(--color-text-invert); }
+.btn-danger:hover { filter: brightness(.92); }
+
+.btn-warning { background-color: var(--color-warning); color: var(--color-text); }
+.btn-warning:hover { filter: brightness(.95); }
+
+.btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+
+/* --- TABLES (Data Grid) --- */
+.admin-list-table {
+    width: 100%;
+    border-collapse: separate; 
+    border-spacing: 0;
+    margin-top: 1rem;
+}
+
+.admin-list-table th, .admin-list-table td {
+    padding: 15px; 
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.95rem; 
+    color: var(--color-text-dark);
+}
+
+.admin-list-table th {
+    background-color: var(--color-surface-alt); 
+    color: var(--color-text-soft); 
+    font-weight: 600;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    font-size: var(--fs-sm);
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+.admin-list-table thead tr:first-child th:first-child { border-top-left-radius: 8px; }
+.admin-list-table thead tr:first-child th:last-child { border-top-right-radius: 8px; }
+
+
+.admin-list-table tr:nth-child(even) {
+    background-color: #f1f1f1; 
+}
+
+.admin-list-table tr:hover {
+    background-color: #e9ecef; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.admin-list-table td:last-child {
+    white-space: nowrap; 
+    gap: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.row-late {
+    background-color: #fff0f0; /* Latar belakang merah muda untuk baris terlambat */
+    border-left: 5px solid var(--color-danger);
+}
+
+.text-danger { color: var(--color-danger) !important; }
+.font-weight-bold { font-weight: 700; }
+
+/* Status Badges */
+.status-badge {
+    padding: 0.4em 0.8em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 12px;
+}
+
+.status-menunggu { background-color: var(--color-warning); color: #333; }
+.status-dipinjam { background-color: var(--color-primary); color: white; }
+.status-terlambat { background-color: var(--color-danger); color: white; }
+.status-selesai { background-color: var(--color-success); color: white; }
+.status-ditolak { background-color: #6c757d; color: white; }
+
+/* --- MODAL STYLES (Untuk UserModal.tsx) --- */
+/* Konsolidasi Modal: gunakan .modal-base & .modal-panel varian ukuran */
+.modal-overlay, .modal-overlay-v5 { /* gabungkan v5 & default */
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+    padding: var(--space-6) var(--space-4);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.modal-overlay.hidden { display: none; }
+
+.modal-content, .modal-content-lg, .modal-content-v5 { /* unify base */
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: var(--space-6) var(--space-6) var(--space-5);
+    position: relative;
+    animation: fadeSlide .25s var(--transition) both;
+}
+
+@keyframes fadeSlide {
+    from { opacity:0; transform: translateY(8px); }
+    to { opacity:1; transform: translateY(0); }
+}
+
+/* Ukuran varian */
+.modal-content { max-width: 520px; }
+.modal-content-lg { max-width: 720px; }
+.modal-content-v5 { max-width: 420px; text-align:center; }
+
+/* Tombol tutup unified */
+.close-button, .modal-close-btn, .modal-close-v5 {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 1.35rem;
+    color: var(--color-text-soft);
+    cursor: pointer;
+    padding: var(--space-1) var(--space-2);
+    line-height: 1;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), background var(--transition);
+}
+.close-button:hover, .modal-close-btn:hover, .modal-close-v5:hover { color: var(--color-danger); background: rgba(0,0,0,0.05); }
+
+/* Header & footer dalam modal */
+.modal-header, .modal-header-v5 {
+    display:flex;
+    align-items:center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    padding-right: var(--space-5);
+    border-bottom: 1px solid var(--color-separator);
+    padding-bottom: var(--space-3);
+}
+.modal-header h2, .modal-header-v5 h2, .modal-header-v5 h3 { font-size: var(--fs-lg); font-weight:600; margin:0; }
+
+/* Footer generic untuk modal aksi */
+.modal-footer-v5, .modal-footer {
+    margin-top: var(--space-5);
+    display:flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content:flex-end;
+}
+
+/* Mapping kelas lama agar tidak break */
+/* .modal-overlay.open dan .confirm-modal dipertahankan oleh komponen lama tanpa deklarasi khusus */
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-text-dark);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: var(--color-danger);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    color: var(--color-text-dark);
+}
+
+.btn-save {
+    width: 100%;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+}
+
+/* --- RESPONSIVE / MOBILE FIXES --- */
+@media (max-width: 768px) {
+    .admin-header, .admin-nav, .admin-content-area {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .admin-nav {
+        flex-wrap: wrap;
+        margin-bottom: 0.5rem;
+    }
+    .admin-nav button {
+        flex: 1 1 auto;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+    }
+    .admin-list-table thead {
+        display: none; 
+    }
+    .admin-list-table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 0.5rem;
+    }
+    .admin-list-table td {
+        display: block;
+        text-align: right;
+        border-bottom: 1px dashed var(--color-border);
+        position: relative;
+        padding: 0.75rem 10px;
+    }
+    .admin-list-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        white-space: nowrap;
+        font-weight: 600;
+        text-align: left;
+        color: var(--color-primary);
+    }
+
+    /* Proof thumbnails */
+    .proof-thumb-wrapper { display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
+    .proof-thumb { width:64px; height:64px; object-fit:cover; border:1px solid var(--color-border); border-radius:4px; box-shadow: var(--shadow-xs); }
+    .proof-thumb-wrapper a { font-size: .75rem; color: var(--color-primary); text-decoration:none; }
+    .proof-thumb-wrapper a:hover { text-decoration:underline; }
+
+    /* Proof Preview Modal */
+    .proof-modal-overlay { position:fixed; top:0; right:0; bottom:0; left:0; background:rgba(0,0,0,.65); display:flex; align-items:center; justify-content:center; z-index:9999; padding:1.25rem; animation:fadeIn .15s ease-out; }
+    .proof-modal { background:var(--color-surface); max-width:360px; width:100%; border-radius:16px; box-shadow:var(--shadow-lg); display:flex; flex-direction:column; overflow:hidden; max-height:80vh; animation:scaleIn .18s cubic-bezier(.4,.12,.2,1); }
+    .proof-modal-header { display:flex; align-items:center; justify-content:space-between; padding:.75rem .9rem .5rem; border-bottom:1px solid var(--color-border); }
+    .proof-modal-header h3 { margin:0; font-size:1.05rem; font-weight:600; }
+    .proof-modal-body { display:flex; flex-direction:column; gap:.75rem; padding:.9rem 1rem 1rem; overflow-y:auto; }
+    .proof-media { width:100%; display:flex; align-items:center; justify-content:center; background:var(--color-surface-alt); border:1px solid var(--color-border); border-radius:12px; max-height:40vh; min-height:180px; position:relative; padding:.5rem; }
+    .proof-media img { width:100%; height:100%; object-fit:contain; border-radius:8px; }
+    .proof-modal--compact { max-width:320px; }
+    .proof-media--sm { max-height:30vh; min-height:140px; }
+
+/* New Card Style Variant (compact approval style) */
+    .proof-card { background:var(--color-surface); width:360px; max-width:90vw; border-radius:20px; box-shadow:0 8px 28px -6px rgba(0,0,0,.25),0 2px 6px -1px rgba(0,0,0,.15); display:flex; flex-direction:column; padding:1.6rem 1.75rem 1.4rem; position:relative; animation:scaleIn .18s cubic-bezier(.4,.12,.2,1); }
+    .proof-card .close-proof { position:absolute; top:10px; right:12px; font-size:1rem; }
+    .proof-card-header { display:flex; flex-direction:column; align-items:center; text-align:center; }
+    .proof-card-title { font-size:1.05rem; margin:.9rem 0 .45rem; font-weight:700; color:var(--color-text); }
+    .proof-card-desc { font-size:.75rem; line-height:1.4; color:var(--color-text-soft); margin:0 0 1rem; }
+    .proof-card-image-wrap { width:150px; height:150px; border-radius:12px; background:var(--color-surface-alt); border:1px solid var(--color-border); display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.08); }
+    .proof-card-image-wrap img { width:100%; height:100%; object-fit:cover; }
+    .proof-card-meta { width:100%; background:var(--color-surface-alt); border:1px solid var(--color-border); padding:.6rem .75rem .7rem; border-radius:10px; font-size:.65rem; line-height:1.35; margin-top:.75rem; }
+    .proof-card-meta p { margin:.15rem 0; }
+    .proof-card-actions { display:flex; gap:.65rem; margin-top:1.1rem; }
+    .proof-card-actions .btn { flex:1 1 0; font-size:.7rem; padding:.6rem 0; font-weight:600; border-radius:8px; }
+    .btn-neutral { background:var(--color-surface-alt); border:1px solid var(--color-border); color:var(--color-text); }
+    .btn-neutral:hover { background:var(--color-border); }
+    .btn-success { background:var(--color-success); color:#fff; border:none; }
+    .btn-success:hover { filter:brightness(.92); }
+    .btn-danger { background:var(--color-danger); color:#fff; border:none; }
+    .btn-danger:hover { filter:brightness(.9); }
+    .btn-outline-small { background:transparent; border:1px solid var(--color-border); color:var(--color-text-soft); font-size:.6rem; padding:.35rem .55rem; border-radius:6px; }
+    .btn-outline-small:hover { background:var(--color-surface-alt); color:var(--color-text); }
+    .proof-modal-header h3 { font-size:.9rem; font-weight:600; }
+    .proof-badges { display:flex; gap:.4rem; flex-wrap:wrap; margin-top:.25rem; }
+    .proof-badge { background:var(--color-primary-bg); color:var(--color-primary); padding:2px 6px; border-radius:6px; font-size:.55rem; font-weight:600; letter-spacing:.3px; }
+    .proof-details { display:flex; flex-direction:column; gap:.75rem; }
+    .proof-meta { font-size:.7rem; background:var(--color-surface-alt); padding:.55rem .65rem .6rem; border-radius:8px; line-height:1.35; border:1px solid var(--color-border); }
+    .proof-actions { display:flex; flex-direction:column; gap:.5rem; margin-top:.4rem; }
+    .proof-actions button { width:100%; font-size:.72rem; padding:.55rem .75rem; }
+    .proof-actions .btn-outline { font-size:.68rem; }
+    .btn-outline { background:transparent; border:1px solid var(--color-border); color:var(--color-text); }
+    .btn-outline:hover { background:var(--color-surface-alt); }
+    .btn-compact { padding:4px 6px; font-size:.65rem; }
+    .close-proof { background:none; border:none; font-size:1.25rem; cursor:pointer; color:var(--color-text-soft); }
+    .close-proof:hover { color:var(--color-danger); }
+    .proof-badge { display:inline-block; padding:2px 8px; border-radius:12px; font-size:.65rem; letter-spacing:.5px; font-weight:600; background:var(--color-primary-bg); color:var(--color-primary); }
+    .proof-badge.method { background:var(--color-info-bg); color:var(--color-info); }
+    .divider-line { height:1px; background:var(--color-border); margin:.5rem 0; }
+    .secondary-info { font-size:.75rem; color:var(--color-text-faint); }
+    .admin-list-table td:last-child {
+        border-bottom: none;
+        text-align: left;
+        padding-left: 10px;
+        display: block; 
+    }
+}
+
+/* Proof Preview Popup (Desktop & Global) */
+.proof-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1.25rem;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    animation: fadeIn .15s ease-out;
+}
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes scaleIn { from { opacity:0; transform: scale(.98); } to { opacity:1; transform: scale(1); } }
+
+.proof-card {
+    background: var(--color-surface);
+    width: 720px;
+    max-width: 92vw;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.5rem 1rem;
+    position: relative;
+    animation: scaleIn .18s cubic-bezier(.4,.12,.2,1);
+}
+
+.proof-card .close-proof {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 1.2rem;
+}
+
+.proof-card-header {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1rem;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: .9rem;
+    margin-bottom: 1rem;
+}
+
+.proof-card-image-wrap {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.proof-card-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Full-size proof card for large photo viewing */
+.proof-card-fullsize {
+    background: var(--color-surface);
+    width: 900px;
+    max-width: 95vw;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.5rem 1rem;
+    position: relative;
+    animation: scaleIn .18s cubic-bezier(.4,.12,.2,1);
+}
+
+.proof-card-image-fullsize {
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 12px;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.proof-card-image-fullsize img {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+    transition: transform .15s ease;
+}
+
+.proof-card-image-fullsize img:hover {
+    transform: scale(1.01);
+}
+
+.proof-card-title { font-size: 1.1rem; font-weight: 700; margin: .4rem 0; }
+.proof-card-desc { font-size: .85rem; color: var(--color-text-soft); margin: 0; }
+
+.proof-card-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .6rem 1rem;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    padding: .6rem .75rem .7rem;
+    border-radius: 10px;
+    font-size: .85rem;
+    line-height: 1.35;
+}
+.proof-card-meta p { margin: .15rem 0; }
+
+.proof-card-actions { display: flex; gap: .6rem; margin-top: 1rem; }
+.proof-card-actions .btn { flex: 0 1 auto; }
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .proof-card { width: 360px; max-width: 90vw; padding: 1rem 1.1rem .9rem; }
+  .proof-card-header { grid-template-columns: 1fr; text-align: center; }
+  .proof-card-image-wrap { width: 150px; height: 150px; margin: 0 auto; }
+  .proof-card-meta { grid-template-columns: 1fr; font-size: .75rem; }
+}
+
+/* File: src/components/DashboardAdmin/AdminDashboard.css (CSS WAJIB UNTUK MODAL) */
+
+/* --- GLOBAL STYLES --- */
+:root {
+    --color-primary: #3498db; 
+    --color-secondary: #2ecc71; 
+    --color-success: #2ecc71; 
+    --color-danger: #e74c3c; 
+    --color-warning: #f39c12; 
+    --color-bg-light: #f4f6f9;
+    --color-text-dark: #34495e;
+    --color-card-bg: #ffffff;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--color-bg-light); 
+    font-family: 'Poppins', sans-serif;
+    color: var(--color-text-dark);
+}
+
+/* --- MODAL STYLES --- */
+/* (Dihapus) duplikasi modal lama digantikan oleh sistem baru */
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-light);
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: var(--color-danger);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-save {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-save:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.btn-save:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+/* --- STATUS CONTAINER --- */
+.status-container {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-container.error {
+    background-color: #fceae9;
+    border: 1px solid var(--color-danger);
+    color: var(--color-danger);
+}
+
+.status-container.success {
+    background-color: #e8f9ed;
+    border: 1px solid var(--color-success);
+    color: var(--color-success);
+}
+/* Tambahkan styling lain yang dibutuhkan oleh AdminDashboard.tsx di file ini */
+/* File: src/components/DashboardAdmin/AdminDashboard.css (Tambahan Styling Modal & Gambar) */
+
+/* --- GLOBAL STYLES (Pastikan ini ada) --- */
+:root {
+    --color-primary: #3498db;
+    --color-success: #2ecc71;
+    --color-danger: #e74c3c;
+    --color-warning: #f39c12;
+    --color-bg-light: #f4f6f9;
+    --color-text-dark: #34495e;
+    --color-card-bg: #ffffff;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- MODAL STYLES (WAJIB ADA) --- */
+/* (Dihapus) definisi duplikat modal */
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-dark);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Hapus ruleset kosong .btn-save; styling sudah ada di komponen */
+
+/* --- ADMIN TABLE STYLES --- */
+.admin-list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background: white;
+    box-shadow: var(--shadow-light);
+}
+.admin-list-table th, .admin-list-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+}
+/* Hover row override (dipertahankan, gunakan token) */
+.admin-list-table tr:hover { background-color: var(--color-surface-alt); }
+
+/* Unified Badges System */
+.status-badge {
+    --_bg: var(--color-info-bg);
+    --_fg: var(--color-info);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px 3px;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    letter-spacing: .3px;
+    line-height: 1.1;
+    background: var(--_bg);
+    color: var(--_fg);
+}
+.status-badge.status-menunggu { --_bg: var(--color-warning-bg); --_fg: var(--color-warning); }
+.status-badge.status-dipinjam { --_bg: var(--color-info-bg); --_fg: var(--color-info); }
+.status-badge.status-terlambat { --_bg: var(--color-danger-bg); --_fg: var(--color-danger); }
+.status-badge.status-siap, .status-badge.status-siap-dikembalikan { --_bg: var(--color-accent-hover); --_fg: #3a2a00; }
+.status-badge.status-selesai { --_bg: var(--color-success-bg); --_fg: var(--color-success); }
+.status-badge.status-ditolak { --_bg: var(--color-text-faint); --_fg: #fff; }
+
+/* Stock Badges */
+.badge-stock {
+    --_bg: var(--color-surface-alt);
+    --_fg: var(--color-text-soft);
+    display: inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width: 42px;
+    padding: 4px 10px;
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    background: var(--_bg);
+    color: var(--_fg);
+    margin-right: 6px;
+}
+.badge-stock.total { --_bg: var(--color-info-bg); --_fg: var(--color-info); }
+.badge-stock.available { --_bg: var(--color-success-bg); --_fg: var(--color-success); }
+.badge-stock.available.danger, .badge-stock.danger { --_bg: var(--color-danger-bg); --_fg: var(--color-danger); }
+.badge-stock.available.success, .badge-stock.success { --_bg: var(--color-success-bg); --_fg: var(--color-success); }
+
+/* Role badge reuse */
+.status-badge.role-admin { --_bg: var(--color-primary); --_fg: #fff; }
+.status-badge.role-user { --_bg: var(--color-surface-alt); --_fg: var(--color-text-soft); }
+
+.book-cover-thumb {
+    width: 40px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.col-cover-center { width:80px; text-align:center; }
+.no-image-placeholder {
+    display: block;
+    width: 40px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    background-color: #ecf0f1;
+    color: #7f8c8d;
+    font-size: 0.6rem;
+    border-radius: 4px;
+}
+
+/* File: src/components/DashboardAdmin/AdminDashboard.css (FINAL FIX: TAMBAHAN CSS MODAL) */
+
+/* --- GLOBAL STYLES --- */
+:root {
+    --color-primary: #0056b3; 
+    --color-secondary: #007bff; 
+    --color-success: #28a745; 
+    --color-danger: #dc3545; 
+    --color-warning: #ffc107; 
+    --color-bg-light: #f4f6f9; 
+    --color-text-dark: #212529; 
+    --color-text-light: #6c757d;
+    --color-card-bg: #ffffff;
+    --color-border: #dee2e6;
+    --shadow-strong: 0 4px 15px rgba(0, 0, 0, 0.1); 
+}
+
+/* ... (Kode CSS AdminDashboard Anda yang lain) ... */
+
+/* =========================================================
+ * MODAL STYLES (FIX: Agar modal muncul)
+ * ========================================================= */
+/* (Dihapus) overlay versi animasi scale diganti fadeSlide */
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-close-btn:hover {
+    color: var(--color-danger);
+}
+
+.modal-title {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.user-form .input-info {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    margin-top: 0.2rem;
+}
+
+.user-form .btn-save {
+    width: 100%;
+    margin-top: 1.5rem;
+}
+
+.modal-error-v2 {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+/* --- NEW: LOAN & RETURN STYLES --- */
+.admin-list-table .row-late {
+    background-color: #fcebeb; /* Merah Muda Sangat Muda */
+    border-left: 5px solid var(--color-danger);
+}
+.admin-list-table .row-late:hover {
+    background-color: #fcd7d7;
+}
+.admin-list-table .late-info {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-danger);
+    background-color: #fdd;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+}
+
+.text-danger-small {
+    font-size: 0.85rem;
+    color: var(--color-danger);
+    margin-top: 5px;
+}
+
+.text-info-small {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    margin-top: 5px;
+}
+
+.text-success-small {
+    font-size: 0.85rem;
+    color: var(--color-success);
+    margin-top: 5px;
+}
+
+/* Modal Split Form (untuk BookModal) */
+.form-group.split-50 {
+    display: flex;
+    gap: 20px;
+}
+
+.form-group.split-50 .form-group-item {
+    flex: 1;
+}
+
+.input-disabled {
+    background-color: #eee;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Pastikan warna dasar sudah didefinisikan di :root atau file lain */
+:root {
+    /* Contoh warna jika belum ada */
+    --color-primary: #0056b3; 
+    --color-warning: #f1c40f; 
+    --color-error: #e74c3c;
+    --color-success: #2ecc71;
+    --border-radius-medium: 15px; 
+}
+
+/* --- OVERLAY & KONTAINER MODAL --- */
+/* (Dihapus) modal-overlay-v5 karena sudah digabung */
+
+/* Confirm modal kini gunakan .modal-content-v5 + .confirm-modal */
+
+/* (Dihapus) animasi scale diganti fadeSlide */
+
+.modal-content-v5 .modal-close-v5 {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-content-v5 .modal-close-v5:hover {
+    color: #333;
+}
+
+/* --- ISI MODAL KONFIRMASI --- */
+.confirm-modal .modal-header-v5 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.confirm-modal h3 {
+    margin: 10px 0 0 0;
+    font-size: 1.4rem;
+}
+
+.confirm-modal .modal-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+/* Warna Ikon berdasarkan Tipe */
+.confirm-modal.warning .modal-icon.warning { color: var(--color-warning); }
+.confirm-modal.danger .modal-icon.danger { color: var(--color-error); }
+.confirm-modal.info .modal-icon.info { color: var(--color-success); } 
+
+.confirm-modal .modal-body-v5 p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.confirm-modal .modal-footer-v5 {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Styling Tombol Aksi */
+.confirm-modal .modal-footer-v5 button {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.confirm-modal .btn-secondary {
+    background-color: #ccc;
+    color: #333;
+}
+.confirm-modal .btn-secondary:hover {
+    background-color: #bbb;
+}
+
+.confirm-modal .btn-warning {
+    background-color: var(--color-warning);
+    color: #212529;
+}
+.confirm-modal .btn-warning:hover {
+    background-color: #e0b40e;
+}
+
+.confirm-modal .btn-danger {
+    background-color: var(--color-error);
+    color: white;
+}
+.confirm-modal .btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.confirm-modal .btn-primary {
+    background-color: var(--color-primary); /* Atau ganti dengan warna aksi Anda */
+    color: white;
+}
+.confirm-modal .btn-primary:hover {
+    background-color: #004494;
+}

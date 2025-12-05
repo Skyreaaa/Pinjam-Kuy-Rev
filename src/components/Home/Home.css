@@ -1,0 +1,332 @@
+/* --- Palet Warna & Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Palet Warna dari Logo */
+  --primary-blue: hsl(205, 78%, 55%);
+  --primary-green: hsl(120, 60%, 50%);
+  --primary-yellow: hsl(40, 95%, 60%);
+  --accent-dark-blue: hsl(210, 50%, 40%);
+  
+  /* Netral */
+  --card-bg: #FFFFFF;
+  --bg-light: #F8F9FA; 
+  --text-dark: #333333;
+  --text-muted: #6C757D;
+  
+  /* Gradien & Shadow */
+  --gradient-logo: linear-gradient(to right, var(--primary-blue), var(--primary-green));
+  --shadow-subtle: 0 8px 20px rgba(0, 0, 0, 0.08);
+  --shadow-strong: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Global Styles & Body --- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-light);
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  overflow-y: auto;
+}
+
+.home-container {
+  min-height: 100svh;
+  min-height: 100dvh;
+  padding: clamp(16px, 3vw, 30px);
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Gaya Card yang Unik & Animatif --- */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 30px;
+  box-shadow: var(--shadow-subtle);
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+}
+
+.card:hover {
+  transform: translateY(-15px) rotate(-1deg);
+  box-shadow: var(--shadow-strong);
+}
+
+/* --- Header --- */
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.app-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5em;
+  font-weight: 800;
+  margin-left: 15px;
+  letter-spacing: -1px;
+}
+
+.menu-toggle-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 2em;
+  color: var(--text-dark);
+  transition: transform 0.3s ease;
+  animation: slideInRight 0.8s ease-out;
+}
+
+.menu-toggle-button:hover {
+  transform: rotate(90deg);
+}
+
+/* --- Dropdown Menu --- */
+.dropdown-menu {
+  position: absolute;
+  top: 100px;
+  right: 30px;
+  background-color: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow-strong);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9);
+  transform-origin: top right;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.dropdown-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.dropdown-item {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 15px 25px;
+  font-size: 1em;
+  color: var(--text-dark);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background: var(--primary-gradient);
+  color: rgb(0, 166, 255);
+}
+
+.dropdown-item.logout {
+  color: #E74C3C;
+  font-weight: 600;
+}
+
+/* --- Dashboard Grid --- */
+.dashboard-grid {
+  display: grid;
+  gap: clamp(14px, 2.5vw, 30px);
+}
+
+/* --- Welcome Card dengan Gradien & Efek Animasi --- */
+.welcome-card {
+  padding: 50px;
+  background: var(--gradient-logo); /* Menggunakan gradasi baru dari palet logo */
+  color: white;
+  border-radius: 35px;
+  box-shadow: var(--shadow-strong);
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 1s ease-out;
+}
+
+.welcome-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: wave 10s infinite linear;
+}
+
+/* --- Gaya Karakter & Mata --- */
+.character-greeting {
+  position: absolute;
+  bottom: 0;
+  right: 20px;
+  width: 150px;
+  height: auto;
+  z-index: 10;
+  animation: floatCharacter 4s ease-in-out infinite;
+}
+
+.character-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.welcome-title {
+  font-size: 3em;
+  font-weight: 800;
+  margin: 0 0 5px;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -2px;
+}
+
+/* --- Info Cards dengan Gaya Berbeda --- */
+.info-card {
+  text-align: left;
+  padding: 40px;
+  border-left: 5px solid;
+  border-radius: 25px;
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.info-icon {
+  font-size: 2.5em;
+  margin-right: 15px;
+  animation: bounceIn 1s ease-out;
+}
+
+/* Fine breakdown styling */
+.fine-breakdown { 
+  margin-top: 4px; 
+  font-size: 0.65rem; 
+  line-height: 1.05rem; 
+  opacity: .9; 
+}
+.fine-breakdown .bd-label { color:#f0f0f0; font-weight:500; }
+.fine-breakdown .bd-val { font-weight:600; }
+/* Warna spesifik breakdown */
+.fine-breakdown .bd-running, .fine-breakdown .bd-running-val { color:#ff9800; }
+.fine-breakdown .bd-unpaid, .fine-breakdown .bd-unpaid-val { color:#e53935; }
+.fine-breakdown .bd-historical, .fine-breakdown .bd-historical-val { color:#4caf50; }
+.fine-breakdown .bd-total-hist { margin-top:2px; border-top:1px dashed rgba(255,255,255,0.25); padding-top:2px; }
+.fine-breakdown .bd-note { color:#888; font-size:0.6rem; margin-top:2px; font-weight:500; }
+.hidden { display: none !important; }
+.info-label {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.info-value {
+  font-size: 2.5em;
+  font-weight: 800;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.info-card.borrowed { border-left-color: var(--primary-blue); }
+.info-card.borrowed .info-icon, .info-card.borrowed .info-value { color: var(--primary-blue); }
+
+.info-card.late-fee { border-left-color: var(--primary-green); }
+.info-card.late-fee .info-icon, .info-card.late-fee .info-value { color: var(--primary-green); }
+
+/* Clickable state */
+.info-card.clickable { cursor: pointer; transition: box-shadow .25s, transform .25s; }
+.info-card.clickable:hover { box-shadow: var(--shadow-strong); transform: translateY(-8px); }
+.info-card.clickable:active { transform: translateY(-2px); }
+
+/* Utility */
+.hidden { display: none !important; }
+
+/* --- Animasi --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounceIn {
+  0%, 20%, 40%, 60%, 80%, 100% { transform-origin: top; }
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes floatCharacter {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* --- Tampilan Desktop --- */
+@media (min-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 2fr 1.5fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "welcome borrowed"
+      "welcome late-fee";
+    gap: 25px;
+  }
+  
+  .welcome-card { grid-area: welcome; }
+  .info-card.borrowed { grid-area: borrowed; }
+  .info-card.late-fee { grid-area: late-fee; }
+
+  .character-greeting {
+    width: 200px;
+  }
+}

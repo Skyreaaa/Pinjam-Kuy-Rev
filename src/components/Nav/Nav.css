@@ -1,0 +1,28 @@
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px;
+  background-color: #21325E;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.nav-button:hover {
+  color: #FFC107;
+}
+
+.nav-button.active {
+  background-color: #2196F3;
+}
