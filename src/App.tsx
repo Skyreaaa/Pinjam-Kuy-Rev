@@ -159,6 +159,32 @@ function App() {
     initialize();
   }, [initialize]);
 
+  // Validate token against backend on app load and page changes
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      handleLogout();
+      return;
+    }
+    const controller = new AbortController();
+    const check = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/health`, {
+          headers: { Authorization: `Bearer ${token}` },
+          signal: controller.signal,
+        });
+        if (res.status === 401) {
+          handleLogout();
+        }
+      } catch {
+        // Network or other error: treat as unauthenticated
+        handleLogout();
+      }
+    };
+    check();
+    return () => controller.abort();
+  }, [currentPage, handleLogout]);
+
 
 
   if (showSplash) {
