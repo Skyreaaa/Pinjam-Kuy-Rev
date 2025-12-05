@@ -96,7 +96,8 @@
     }
     const HeaderV5: React.FC<HeaderV5Props> = ({ onBack, currentPath, searchTerm, setSearchTerm, title }) => {
         const navigate = useNavigate();
-        const isSearchVisible = currentPath === '/';
+        // Tampilkan kotak pencarian di halaman daftar buku
+        const isSearchVisible = currentPath === '/loans';
 
         return (
             <div className="borrowing-header-v5">

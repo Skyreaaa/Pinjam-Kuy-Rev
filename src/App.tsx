@@ -1,11 +1,13 @@
 // File: App.tsx (SUDAH DIPERBAIKI)
 import React, { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import GlobalNotificationListener from './components/common/GlobalNotificationListener';
 import { profileApi } from './services/api';
 import SplashScreen from './components/SplashScreen';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
+import RequireAuth from './components/common/RequireAuth';
 // Asumsi komponen-komponen ini ada:
 import AdminDashboard from './components/DashboardAdmin/AdminDashboard'; 
 import BorrowingPage, { Loan } from './components/Peminjaman/BorrowingPage'; 
@@ -242,60 +244,93 @@ function App() {
     return <SplashScreen />; 
   }
 
-  if (!isLoggedIn) {
-    return <Login onLogin={handleLogin} />;
-  }
-
-  // --- RENDERING ROUTE ---
-  let page: JSX.Element;
-  switch (currentPage) {
-    case 'home':
-      page = (<Home
-        userData={userData}
-        profilePhoto={profilePhoto}
-        onMenuClick={setCurrentPage}
-        onLogout={handleLogout}
-      />);
-      break;
-    case 'borrowing-page': 
-      page = (<BorrowingPage
-        userData={userData}
-        onBack={() => setCurrentPage('home')}
-        loans={loans} 
-        onLoanAdded={handleLoanAdded} 
-      />);
-      break;
-    case 'profile':
-      page = (<Profile 
-        userData={userData}
-        profilePhoto={profilePhoto}
-        onPhotoUpdate={handlePhotoUpdate} 
-        onProfileSave={handleProfileSave} 
-        onBack={() => setCurrentPage('home')}
-        onDeletePhoto={handleDeletePhoto} 
-      />);
-      break;
-    case 'notification-history':
-      page = (<NotificationHistory onBack={() => setCurrentPage('home')} />);
-      break;
-    case 'admin-dashboard':
-      page = (<AdminDashboard />);
-      break;
-    default:
-      page = (<Home
-        userData={userData}
-        profilePhoto={profilePhoto}
-        onMenuClick={setCurrentPage}
-        onLogout={handleLogout}
-      />);
-      break;
-  }
-
   return (
-    <>
-      {page}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <Home
+                userData={userData}
+                profilePhoto={profilePhoto}
+                onMenuClick={(p)=>{
+                  // navigate via Router
+                  switch(p){
+                    case 'borrowing-page': window.history.pushState(null,'','/loans'); break;
+                    case 'profile': window.history.pushState(null,'','/profile'); break;
+                    case 'notification-history': window.history.pushState(null,'','/notifications'); break;
+                    case 'admin-dashboard': window.history.pushState(null,'','/admin'); break;
+                    default: window.history.pushState(null,'','/'); break;
+                  }
+                }}
+                onLogout={handleLogout}
+              />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/loans"
+          element={
+            <RequireAuth>
+              <BorrowingPage
+                userData={userData}
+                onBack={() => {}}
+                loans={loans}
+                onLoanAdded={handleLoanAdded}
+              />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/book/:bookId"
+          element={
+            <RequireAuth>
+              <BorrowingPage
+                userData={userData}
+                onBack={() => {}}
+                loans={loans}
+                onLoanAdded={handleLoanAdded}
+              />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth>
+              <Profile
+                userData={userData}
+                profilePhoto={profilePhoto}
+                onPhotoUpdate={handlePhotoUpdate}
+                onProfileSave={handleProfileSave}
+                onBack={() => {}}
+                onDeletePhoto={handleDeletePhoto}
+              />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <RequireAuth>
+              <NotificationHistory onBack={() => {}} />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <RequireAuth>
+              <AdminDashboard />
+            </RequireAuth>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
       <GlobalNotificationListener />
-    </>
+    </BrowserRouter>
   );
 }
 
