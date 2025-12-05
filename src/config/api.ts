@@ -6,12 +6,16 @@
 
 function resolveDefaultBase(): string {
 	if (typeof window !== 'undefined') {
-		const host = window.location.hostname;
-		// Detect LAN access (phone opening via 192.168.x.x / 10.x / etc.)
-		const isLocalhost = host === 'localhost' || host === '127.0.0.1';
+		const { protocol, hostname } = window.location;
+		const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
+		// If running under HTTPS (e.g., Cloudflare Pages, Vercel), avoid mixed content and ports
+		if (protocol === 'https:') {
+			// Expect a reverse-proxied backend under the same domain path /api or use env instead
+			return `https://${hostname}/api`;
+		}
+		// HTTP development: assume backend on the same host port 5000
 		if (!isLocalhost) {
-			// Assume backend runs on same machine at port 5000
-			return `http://${host}:5000/api`;
+			return `http://${hostname}:5000/api`;
 		}
 	}
 	return 'http://localhost:5000/api';
@@ -29,6 +33,7 @@ function normalizeBase(raw?: string): string {
 
 // Access env from CRA (inlined at build time)
 const envBase = process.env.REACT_APP_API_BASE_URL as string | undefined;
+// Prefer explicit env; otherwise resolve default based on current protocol/host
 export const API_BASE_URL = normalizeBase(envBase) || resolveDefaultBase();
 
 // Helper to build full URL
