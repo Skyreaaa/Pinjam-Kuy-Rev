@@ -128,6 +128,14 @@ function App() {
   
 
   const initialize = useCallback(() => {
+    const pathToPage = (path: string): string => {
+      if (path.startsWith('/loans')) return 'borrowing-page';
+      if (path.startsWith('/profile')) return 'profile';
+      if (path.startsWith('/notifications')) return 'notification-history';
+      if (path.startsWith('/admin')) return 'admin-dashboard';
+      return 'home';
+    };
+
     const token = localStorage.getItem('token');
     const userDataStr = localStorage.getItem('userData');
 
@@ -140,9 +148,14 @@ function App() {
         const photoUrl = resolveMediaUrl(data.profile_photo_url) || defaultAvatar;
         setProfilePhoto(photoUrl);
 
-        // Jika user adalah admin, pastikan dia tetap di dashboard admin saat refresh
-        if (data.role === 'admin') {
-            setCurrentPage('admin-dashboard');
+        // Sinkronkan URL ke halaman saat refresh / direct link
+        const initialPath = window.location.pathname;
+        const initialPage = pathToPage(initialPath);
+        // Jika admin dan masuk ke /admin atau halaman lain, hormati URL
+        if (data.role === 'admin' && initialPage === 'home') {
+          setCurrentPage('admin-dashboard');
+        } else {
+          setCurrentPage(initialPage);
         }
 
       } catch (e) {
@@ -151,6 +164,8 @@ function App() {
       }
     } else {
       setProfilePhoto(defaultAvatar);
+      // Jika tidak login, tetap tampilkan login terlepas dari URL
+      setCurrentPage('home');
     }
     setTimeout(() => setShowSplash(false), 2000);
   }, [handleLogout, resolveMediaUrl]); 
@@ -158,6 +173,40 @@ function App() {
   useEffect(() => {
     initialize();
   }, [initialize]);
+
+  // Push URL when currentPage changes and handle back/forward
+  useEffect(() => {
+    const pageToPath = (page: string): string => {
+      switch (page) {
+        case 'borrowing-page': return '/loans';
+        case 'profile': return '/profile';
+        case 'notification-history': return '/notifications';
+        case 'admin-dashboard': return '/admin';
+        case 'home':
+        default:
+          return '/';
+      }
+    };
+
+    const path = pageToPath(currentPage);
+    if (window.location.pathname !== path) {
+      window.history.pushState(null, '', path);
+    }
+
+    const onPopState = () => {
+      const path = window.location.pathname;
+      const pathToPage = (p: string): string => {
+        if (p.startsWith('/loans')) return 'borrowing-page';
+        if (p.startsWith('/profile')) return 'profile';
+        if (p.startsWith('/notifications')) return 'notification-history';
+        if (p.startsWith('/admin')) return 'admin-dashboard';
+        return 'home';
+      };
+      setCurrentPage(pathToPage(path));
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [currentPage]);
 
   // Validate token against backend on app load and page changes
   useEffect(() => {
