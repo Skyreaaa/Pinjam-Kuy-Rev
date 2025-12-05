@@ -40,13 +40,13 @@ const Home: React.FC<HomeProps> = ({
   onLogout
 }) => {
   // Normalisasi agar aman saat userData null/undefined
-  const safeUser: any = userData || {};
+  const safeUser = userData || {};
   const { 
     username = 'Pengguna', 
     prodi = 'Prodi', 
     active_loans_count = 0, 
     denda = 0 
-  } = safeUser;
+  } = safeUser as any;
   // activeFine = denda berjalan (overdue saat ini) + denda belum dibayar (returned belum dilunasi)
   // Total denda aktif diturunkan dari runningFine + unpaidFine
   const [runningFine, setRunningFine] = useState<number>(0); // overdue in-flight
@@ -165,7 +165,7 @@ const Home: React.FC<HomeProps> = ({
             onMenuClick('notification-history');
             setMenuOpen(false);
           }}>Notifikasi</button>
-          {userData.role === 'admin' && (
+          {safeUser.role === 'admin' && (
             <button className="dropdown-item" onClick={() => {
               onMenuClick('admin-dashboard');
               setMenuOpen(false);

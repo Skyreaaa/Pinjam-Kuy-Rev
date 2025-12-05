@@ -216,7 +216,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      handleLogout();
+      // Biarkan RequireAuth yang mengarahkan ke /login; hindari setState di sini.
       return;
     }
     const controller = new AbortController();

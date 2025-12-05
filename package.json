@@ -64,9 +64,6 @@
       "last 1 safari version"
     ]
   },
-  "engines": {
-    "node": "20.x"
-  },
   "devDependencies": {
     "@types/react": "18.2.66",
     "@types/react-dom": "18.2.23",
