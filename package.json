@@ -38,11 +38,12 @@
     "url": "^0.11.4",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4",
-    "yaml": "^2.8.2"
+    "yaml": "^2.8.2",
+    "cross-env": "^7.0.3"
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "cross-env CI=false craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
