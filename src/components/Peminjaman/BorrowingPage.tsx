@@ -423,7 +423,7 @@
                         </div>
                         <div className="form-group-v5">
                             <label>Peminjam</label>
-                            <p className="form-value-v5">{userData.username} ({userData.npm})</p>
+                            <p className="form-value-v5">{userData?.username || 'Pengguna'} ({userData?.npm || '-'})</p>
                         </div>
                         
                         <div className="form-group-v5">
@@ -657,7 +657,7 @@
             } finally {
                 setIsLoading(false);
             }
-        }, [userData.id]);
+        }, [userData?.id]);
 
         useEffect(() => {
             fetchLoans();

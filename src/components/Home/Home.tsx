@@ -34,18 +34,19 @@ const formatRupiah = (amount: number) => {
 };
 
 const Home: React.FC<HomeProps> = ({
-  userData = {} as any,
+  userData,
   profilePhoto,
   onMenuClick,
   onLogout
 }) => {
-  // Ambil kedua data langsung dari userData
+  // Normalisasi agar aman saat userData null/undefined
+  const safeUser: any = userData || {};
   const { 
     username = 'Pengguna', 
     prodi = 'Prodi', 
     active_loans_count = 0, 
     denda = 0 
-  } = userData;
+  } = safeUser;
   // activeFine = denda berjalan (overdue saat ini) + denda belum dibayar (returned belum dilunasi)
   // Total denda aktif diturunkan dari runningFine + unpaidFine
   const [runningFine, setRunningFine] = useState<number>(0); // overdue in-flight
