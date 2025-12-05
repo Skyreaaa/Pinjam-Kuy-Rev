@@ -19,6 +19,26 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Global 401 handler: bila token invalid/expired, bersihkan dan arahkan ke login
+api.interceptors.response.use(
+  (resp) => resp,
+  (error) => {
+    const status = error?.response?.status;
+    if (status === 401) {
+      try {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userData');
+      } catch {}
+      const current = window.location.pathname;
+      if (current !== '/login') {
+        const next = `/login?redirect=${encodeURIComponent(current)}`;
+        window.location.assign(next);
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 // ---- TYPES ----
 export interface LoginResponse {
   success: boolean;
