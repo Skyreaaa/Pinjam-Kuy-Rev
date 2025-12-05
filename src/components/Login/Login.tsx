@@ -1,5 +1,6 @@
 // File: components/Login/Login.tsx (SUDAH DIPERBAIKI)
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // Gunakan service terpusat
 import { authApi } from '../../services/api';
 import './Login.css'; // Asumsi file CSS ada
@@ -31,6 +32,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }: LoginProps) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -56,6 +58,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }: LoginProps) => {
       
       // Meneruskan token, data pengguna, dan jalur redirect ke App.tsx
       onLogin({ token, userData, redirectPath }); 
+
+      // Navigasi langsung agar tidak menunggu efek App.tsx
+      const targetPath = redirectPath === 'admin-dashboard' ? '/admin' : '/';
+      navigate(targetPath, { replace: true });
       
     } catch (err: any) {
       // Menangani error 401 atau 500 dari backend
