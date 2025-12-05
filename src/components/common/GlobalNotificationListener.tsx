@@ -106,7 +106,7 @@ const GlobalNotificationListener: React.FC = () => {
               if (p.status === 'Siap Dikembalikan' && (l.status === 'Sedang Dipinjam' || l.status === 'Terlambat' || (l as any).returnDecision === 'rejected')) {
                 const key = `return_rejected_${l.id}`;
                 if (!sessionStorage.getItem(key)) {
-                  setToast({ message: `Bukti pengembalian untuk \"${l.bookTitle}\" ditolak. Unggah ulang bukti yang lebih jelas.`, type: 'error' });
+                  setToast({ message: `Bukti pengembalian untuk "${l.bookTitle}" ditolak. Unggah ulang bukti yang lebih jelas.`, type: 'error' });
                   sessionStorage.setItem(key, '1');
                 }
               }

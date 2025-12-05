@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { loanApi } from '../../services/api';
-import { FaArrowLeft, FaCheckCircle, FaTimesCircle, FaBell, FaMoneyBillWave, FaCalendarAlt, FaFilter, FaMapMarkerAlt, FaImage, FaTimes } from 'react-icons/fa';
-import { format, startOfDay, endOfDay, startOfMonth, endOfMonth, startOfYear, endOfYear, isWithinInterval, subMonths } from 'date-fns';
+import { FaArrowLeft, FaCheckCircle, FaTimesCircle, FaBell, FaMoneyBillWave, FaFilter, FaMapMarkerAlt, FaImage, FaTimes } from 'react-icons/fa';
+import { format, startOfDay, endOfDay, startOfMonth, endOfMonth, isWithinInterval, subMonths } from 'date-fns';
 import { id } from 'date-fns/locale';
 import { API_BASE_URL } from '../../config/api';
 import './BorrowingPage.css';
@@ -179,11 +179,7 @@ const NotificationHistory: React.FC<NotificationHistoryProps> = ({ onBack }) => 
   }, []);
 
   // Apply filter whenever filterType or dates change
-  useEffect(() => {
-    applyFilter();
-  }, [filterType, customStartDate, customEndDate, allItems]);
-
-  const applyFilter = () => {
+  const applyFilter = React.useCallback(() => {
     let filtered = [...allItems];
     const now = new Date();
 
@@ -237,7 +233,11 @@ const NotificationHistory: React.FC<NotificationHistoryProps> = ({ onBack }) => 
     }
 
     setFilteredItems(filtered);
-  };
+  }, [allItems, filterType, customStartDate, customEndDate]);
+
+  useEffect(() => {
+    applyFilter();
+  }, [applyFilter]);
 
   const getFilterLabel = () => {
     switch (filterType) {

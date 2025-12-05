@@ -23,9 +23,9 @@ interface PayFineModalProps {
 const formatCurrency = (amount: number) => `Rp ${amount.toLocaleString('id-ID')}`;
 
 const PayFineModal: React.FC<PayFineModalProps> = ({ items, onClose, onConfirm, loading, mode, successMessage, errorMessage, onRefresh, autoCloseOnSuccess }) => {
-  const unpaidAll = items.filter(i => !i.finePaid && i.penaltyAmount > 0);
+  const unpaidAll = React.useMemo(()=> items.filter(i => !i.finePaid && i.penaltyAmount > 0), [items]);
   const [selectedIds, setSelectedIds] = useState<number[]>(() => unpaidAll.map(u=>u.id));
-  useEffect(()=>{ setSelectedIds(unpaidAll.map(u=>u.id)); }, [items]);
+  useEffect(()=>{ setSelectedIds(unpaidAll.map(u=>u.id)); }, [unpaidAll]);
   const toggleSelect = (id:number) => setSelectedIds(prev => prev.includes(id) ? prev.filter(p=>p!==id) : [...prev, id]);
   const allSelected = selectedIds.length === unpaidAll.length && unpaidAll.length>0;
   const toggleAll = () => setSelectedIds(allSelected ? [] : unpaidAll.map(u=>u.id));

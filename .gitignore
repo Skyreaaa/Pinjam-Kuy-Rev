@@ -53,3 +53,5 @@ Thumbs.db
 *.orig
 
 # End of extended ignore rules
+
+# Local Netlify folder

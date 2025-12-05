@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaExclamationTriangle, FaCheckCircle, FaTimes, FaInfoCircle } from 'react-icons/fa';
+import { FaExclamationTriangle, FaTimes, FaInfoCircle } from 'react-icons/fa'; // Removed unused icon import
 
 // --- INTERFACE ---
 interface ConfirmModalProps {

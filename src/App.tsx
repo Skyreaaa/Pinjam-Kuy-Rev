@@ -29,6 +29,11 @@ function App() {
 
   // Untuk akses file statis (uploads) derive dari API_BASE_URL terpusat
   const API_URL = API_BASE_URL.replace(/\/api\/?$/,'');
+  const resolveMediaUrl = useCallback((raw?: string | null) => {
+    if (!raw) return null;
+    if (/^(https?:|data:|blob:)/i.test(raw)) return raw; // sudah absolut (Cloudinary/dll)
+    return `${API_URL}${raw}`; // relatif dari backend
+  }, [API_URL]);
   const getUserDataFromStorage = () => {
     const userDataStr = localStorage.getItem('userData');
     return userDataStr ? JSON.parse(userDataStr) : null;
@@ -56,7 +61,7 @@ function App() {
       setIsLoggedIn(true);
       
       // Menggunakan URL penuh dari backend jika ada
-      const photoUrl = data.userData.profile_photo_url ? `${API_URL}${data.userData.profile_photo_url}` : defaultAvatar;
+      const photoUrl = resolveMediaUrl(data.userData.profile_photo_url) || defaultAvatar;
       setProfilePhoto(photoUrl);
       
       // Mengalihkan ke halaman yang ditentukan oleh Login.tsx
@@ -88,7 +93,7 @@ function App() {
     try {
       const resp = await profileApi.uploadPhoto(photo);
       if (resp.success && resp.profile_photo_url) {
-        const newPhotoUrl = `${API_URL}${resp.profile_photo_url}`;
+        const newPhotoUrl = resolveMediaUrl(resp.profile_photo_url) || defaultAvatar;
         setProfilePhoto(newPhotoUrl);
         const currentData = getUserDataFromStorage() || {};
         currentData.profile_photo_url = resp.profile_photo_url;
@@ -100,7 +105,7 @@ function App() {
     } catch (e: any) {
       onComplete(false, e?.response?.data?.message || 'Terjadi kesalahan jaringan.');
     }
-  }, [setProfilePhoto]);
+  }, [setProfilePhoto, resolveMediaUrl]);
   
   
   // ✅ HANDLER #3: Hapus Foto (DELETE /api/profile/delete-photo)
@@ -132,7 +137,7 @@ function App() {
         setUserData(data);
         setIsLoggedIn(true);
 
-        const photoUrl = data.profile_photo_url ? `${API_URL}${data.profile_photo_url}` : defaultAvatar;
+        const photoUrl = resolveMediaUrl(data.profile_photo_url) || defaultAvatar;
         setProfilePhoto(photoUrl);
 
         // Jika user adalah admin, pastikan dia tetap di dashboard admin saat refresh
@@ -148,7 +153,7 @@ function App() {
       setProfilePhoto(defaultAvatar);
     }
     setTimeout(() => setShowSplash(false), 2000);
-  }, [handleLogout, API_URL]); 
+  }, [handleLogout, resolveMediaUrl]); 
 
   useEffect(() => {
     initialize();

@@ -1,3 +1,26 @@
+/* Hide canvas element in FinePaymentProofModal */
+.hidden-canvas { display: none; }
+
+/* Upload progress backdrop z-index moved from inline */
+.upload-progress-backdrop { z-index: 1100; }
+
+/* Upload progress bar states */
+.upload-progress-bar-fill { height: 8px; transition: width 0.2s ease, background-color 0.2s ease; }
+.upload-progress-bar-fill.ongoing { background-color: #2196f3; }
+.upload-progress-bar-fill.success { background-color: #4caf50; }
+
+/* Discrete width classes to avoid inline styles */
+.w-0 { width: 0%; }
+.w-10 { width: 10%; }
+.w-20 { width: 20%; }
+.w-30 { width: 30%; }
+.w-40 { width: 40%; }
+.w-50 { width: 50%; }
+.w-60 { width: 60%; }
+.w-70 { width: 70%; }
+.w-80 { width: 80%; }
+.w-90 { width: 90%; }
+.w-100 { width: 100%; }
 .App {
   text-align: center;
 }

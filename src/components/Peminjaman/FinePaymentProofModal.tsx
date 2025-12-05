@@ -30,7 +30,7 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
   const [submitting, setSubmitting] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [dragActive, setDragActive] = useState(false);
+  // Removed unused drag state to satisfy ESLint
   const [rotDeg, setRotDeg] = useState(0);
   const [cropMode, setCropMode] = useState(false);
   const [crop, setCrop] = useState<Crop | undefined>(undefined);
@@ -52,7 +52,7 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
     return null;
   };
 
-  const handleSelect = async (f: File) => {
+  const handleSelect = useCallback(async (f: File) => {
     const msg = validateFile(f);
     if (msg) { setError(msg); setFile(null); setPreview(null); return; }
     setError(null);
@@ -77,7 +77,7 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
     setFile(processed);
     const url = URL.createObjectURL(processed);
     setPreview(url);
-  };
+  }, []);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
@@ -87,17 +87,7 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
     }
   };
 
-  const onDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault(); e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleSelect(e.dataTransfer.files[0]);
-    }
-  }, []);
-
-  const onDragOver = (e: React.DragEvent) => { e.preventDefault(); e.stopPropagation(); };
-  const onDragEnter = (e: React.DragEvent) => { e.preventDefault(); e.stopPropagation(); setDragActive(true); };
-  const onDragLeave = (e: React.DragEvent) => { e.preventDefault(); e.stopPropagation(); setDragActive(false); };
+  // Removed unused drag/drop handlers to satisfy ESLint
 
   const resetFile = () => {
     if (preview) URL.revokeObjectURL(preview);
@@ -352,7 +342,7 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
     if (!preview && !file) {
       startCamera();
     }
-  }, []);
+  }, [preview, file]);
 
   // Connect stream to video element
   React.useEffect(() => {
@@ -384,7 +374,7 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
               </button>
             </div>
             <video ref={videoRef} autoPlay playsInline className="fine-camera-video" />
-            <canvas ref={canvasRef} style={{display: 'none'}} />
+              <canvas ref={canvasRef} className="hidden-canvas" />
             <div className="fine-camera-controls">
               <button type="button" className="fine-btn-capture" onClick={takePicture}>
                 📸 Take Picture
@@ -457,8 +447,8 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
         )}
         
         {/* Hidden file inputs */}
-        <input id="fine-proof-input" ref={inputRef} type="file" accept="image/*" onChange={onFileChange} className="visually-hidden-file" />
-        <input id="fine-proof-camera" ref={cameraInputRef} type="file" accept="image/*" capture="environment" onChange={onFileChange} className="visually-hidden-file" />
+          <input id="fine-proof-input" ref={inputRef} type="file" accept="image/*" onChange={onFileChange} className="visually-hidden-file" aria-label="Unggah bukti pembayaran denda" />
+          <input id="fine-proof-camera" ref={cameraInputRef} type="file" accept="image/*" onChange={onFileChange} className="visually-hidden-file" aria-label="Ambil foto bukti pembayaran denda" />
         
         {error && <p className="status-message error" role="alert">{error}</p>}
         <div className="modal-actions">
@@ -474,13 +464,9 @@ const FinePaymentProofModal: React.FC<FinePaymentProofModalProps> = ({ loanIds, 
             <h3>Mengunggah Bukti Pembayaran</h3>
             <div className="upload-progress-container">
               <div className="upload-progress-bar-bg">
-                <div 
-                  className="upload-progress-bar-fill" 
-                  style={{
-                    width: `${uploadProgress}%`,
-                    backgroundColor: uploadProgress === 100 ? '#4caf50' : '#2196f3'
-                  }}
-                />
+                  <div 
+                    className={`upload-progress-bar-fill ${uploadProgress === 100 ? 'success' : 'ongoing'} w-${uploadProgress}`}
+                  />
               </div>
               <div className="upload-progress-text">{uploadProgress}%</div>
             </div>

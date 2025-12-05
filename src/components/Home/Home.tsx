@@ -47,7 +47,7 @@ const Home: React.FC<HomeProps> = ({
     denda = 0 
   } = userData;
   // activeFine = denda berjalan (overdue saat ini) + denda belum dibayar (returned belum dilunasi)
-  const [activeFine, setActiveFine] = useState<number>(0);
+  // Total denda aktif diturunkan dari runningFine + unpaidFine
   const [runningFine, setRunningFine] = useState<number>(0); // overdue in-flight
   const [unpaidFine, setUnpaidFine] = useState<number>(0);   // returned but not paid
   const [historicalTotal, setHistoricalTotal] = useState<number>(denda || 0); // total akumulasi sepanjang waktu (server authoritative)
@@ -67,7 +67,7 @@ const Home: React.FC<HomeProps> = ({
           const uFine = resp.unpaidReturnedFine || 0;
           setRunningFine(rFine);
           setUnpaidFine(uFine);
-          setActiveFine(rFine + uFine);
+          // total diturunkan di render (runningFine + unpaidFine)
           if (typeof resp.historicalTotal === 'number') {
             setHistoricalTotal(resp.historicalTotal);
           }

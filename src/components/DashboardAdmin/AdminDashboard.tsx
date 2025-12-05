@@ -1,13 +1,12 @@
 // File: src/components/DashboardAdmin/AdminDashboard.tsx (FULL CODE SIAP PAKAI)
 
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 // Ganti axios langsung dengan service terpusat
-import { adminApi, bookApi, normalizeBook } from '../../services/api';
+import { adminApi, bookApi } from '../../services/api';
 import { API_BASE_URL } from '../../config/api';
 import './AdminDashboard.css'; 
-import { FaBook, FaList, FaUndo, FaEdit, FaTrash, FaCheckCircle, FaTimesCircle, FaPlus, FaSave, FaRegUserCircle, FaUsers, FaTimes, FaCalendarCheck, FaClock, FaUserPlus, FaInfoCircle, FaSortAlphaDown, FaBarcode, FaMapMarkerAlt, FaSearch, FaAngleLeft, FaMoneyBillWave, FaSync, FaHistory } from 'react-icons/fa';
-import { IoIosArrowBack } from "react-icons/io";
+import { FaBook, FaList, FaUndo, FaEdit, FaTrash, FaCheckCircle, FaTimesCircle, FaPlus, FaUsers, FaTimes, FaCalendarCheck, FaUserPlus, FaInfoCircle, FaSortAlphaDown, FaBarcode, FaMapMarkerAlt, FaSearch, FaMoneyBillWave, FaSync, FaHistory } from 'react-icons/fa';
 import { format } from 'date-fns'; 
 import UserModal from './UserModal'; 
 import BookModal from './BookModal'; // ✅ BARU: Import Modal Buku
@@ -19,7 +18,6 @@ import { useZxing } from 'react-zxing';
 
 // --- KONSTANTA & HELPER --
 // BASE_URL bisa diambil dari window.location.origin jika butuh untuk file statis
-const getToken = () => localStorage.getItem('token');
 
 // Helper untuk format Rupiah
 const formatRupiah = (amount: number) => {
@@ -389,7 +387,8 @@ const AdminDashboard: React.FC = () => {
     };
 
     // Handle manual code input
-    const handleManualCodeSubmit = async () => {
+    // Removed unused handler to satisfy ESLint
+    /* const handleManualCodeSubmit = async () => {
         if (!manualCode.trim()) {
             setScanError('Kode peminjaman tidak boleh kosong.');
             return;
@@ -411,7 +410,7 @@ const AdminDashboard: React.FC = () => {
         } catch (e:any) {
             setScanError(e?.response?.data?.message || 'Gagal memproses kode peminjaman.');
         }
-    };
+    }; */
 
 
     // --- CRUD USER & DENDA ---
